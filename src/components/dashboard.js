@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Button, Dropdown, Form, Header, Modal, TextArea } from 'semantic-ui-react'
+import ReactPDF, { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 
-import { loginUser, getCurrentUser } from '../actions/index'
+import { loginUser, getCurrentUser, addEducation, addExperience } from '../actions/index'
 
 import { DEGREE_OPTIONS } from '../constants'
 
@@ -15,10 +16,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    loginUser, 
-    getCurrentUser
+    loginUser, getCurrentUser, addEducation, addExperience
 }, dispatch)
-
 
 class Dashboard extends Component {
     constructor(props) {
@@ -29,10 +28,13 @@ class Dashboard extends Component {
             experience_modal_open: false,
             
             new_education: {},
-            new_experience: {}
+            new_experience: {},
+            
+            render_pdf: false
         }
 
         this.handleNewEducationChange = this.handleNewEducationChange.bind(this)
+        this.handleNewExperienceChange = this.handleNewExperienceChange.bind(this)
         this.handleAddEducation = this.handleAddEducation.bind(this)
         this.handleAddExperience = this.handleAddExperience.bind(this)
     }
@@ -50,13 +52,6 @@ class Dashboard extends Component {
         this.setState({ new_education })
     }
 
-    handleEducationDegreeSelectField = async (e, { field, value }) => {
-        const new_edcation = Object.assign({}, this.state.new_edcation, {
-            [field]: value
-        })
-        await this.setState({ new_edcation })
-    }
-
     handleNewExperienceChange(e) { 
         e.preventDefault()
         const new_experience = Object.assign({}, this.state.new_experience, {
@@ -65,14 +60,35 @@ class Dashboard extends Component {
         this.setState({ new_experience })
     }
 
-    handleAddEducation(e) {
-        e.preventDefault() 
-        console.log('new education: ', this.state.new_education)
+    handleEducationDegreeSelectField = async (e, { field, value }) => {
+        const new_edcation = Object.assign({}, this.state.new_edcation, {
+            [field]: value
+        })
+        await this.setState({ new_edcation })
     }
 
-    handleAddExperience(e) {
+    async handleAddEducation(e) {
         e.preventDefault() 
-        console.log('new experience: ', this.state.new_experience)
+        const success = await this.props.addEducation(this.props.current_user._id, this.state.new_education)
+
+        if (success) {
+            await this.props.getCurrentUser(this.props.current_user._id)
+            this.setState({ education_modal_open: false })
+        } else {
+            // Error message
+        }
+    }
+
+    async handleAddExperience(e) {
+        e.preventDefault() 
+        const success = await this.props.addExperience(this.props.current_user._id, this.state.new_experience)
+
+        if (success) {
+            await this.props.getCurrentUser(this.props.current_user._id)
+            this.setState({ experience_modal_open: false })
+        } else {
+            // Error message
+        }
     }
 
     renderEducation() {
@@ -128,9 +144,11 @@ class Dashboard extends Component {
 
     render() {
         const { current_user } = this.props
+        
         return (
             <div>
                 Welcome {current_user.first_name} {current_user.last_name}
+                <Button className='create-cv-button' color='blue'>Create CV</Button>
                 {this.renderEducation()}
                 <br/>
                 {this.renderExperience()}
@@ -165,8 +183,8 @@ class Dashboard extends Component {
                             <TextArea fluid id='description' placeholder='Description' onChange={this.handleNewExperienceChange}  />
                             <br />
                             <br />
-                            <Form.Input fluid label='Start Year' id='start_year' placeholder='Start Year' onChange={this.handleNewEducationChange}  />
-                            <Form.Input fluid label='End Year' id='end_year' placeholder='End Year' onChange={this.handleNewEducationChange}  />
+                            <Form.Input fluid label='Start Date' id='start_date' placeholder='Start Date' onChange={this.handleNewExperienceChange}  />
+                            <Form.Input fluid label='End Date' id='end_date' placeholder='End Date' onChange={this.handleNewExperienceChange}  />
                         </Form>
                     </Modal.Content>
                     <Modal.Actions>

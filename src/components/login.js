@@ -14,7 +14,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    loginUser
+    loginUser,
+    gotoDashboard: () => push('/dashboard')
 }, dispatch)
 
 class Login extends Component { 

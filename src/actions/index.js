@@ -60,6 +60,7 @@ export const loginUser = (user) => async dispatch => {
 export const getCurrentUser = (user_id) => async dispatch => {
     let headers = getHeadersWithJWT()
     const res = await axios.get(`${BASE_URL}/user/${user_id}`, headers)
+    console.log('GET CURRENT USER USER res.data: ', res.data)
 
     if (res.data.success) {
         await dispatch({
@@ -74,3 +75,43 @@ export const getCurrentUser = (user_id) => async dispatch => {
     }
 }
 
+export const addEducation = (user_id, education) => async dispatch =>{
+    const headers = getHeadersWithJWT()
+    const res = await axios.post(`${BASE_URL}/user/${user_id}/education`, education, headers)
+    console.log('ADD EDUCATION res.data: ', res.data) 
+
+    if (res.data.success) {
+        await dispatch({
+            type: 'ADD_EDUCATION_SUCCESS',
+            payload: res.data.data
+        })
+        return true 
+    } else {
+        await dispatch({
+            type: 'ADD_EDUCATION_FAIL',
+            payload: res.data
+        })
+        return false
+    }
+}
+
+
+export const addExperience = (user_id, experience) => async dispatch =>{
+    const headers = getHeadersWithJWT()
+    const res = await axios.post(`${BASE_URL}/user/${user_id}/experience`, experience, headers)
+    console.log('ADD EXPERIENCE res.data: ', res.data) 
+
+    if (res.data.success) {
+        await dispatch({
+            type: 'ADD_EXPERIENCE_SUCCESS',
+            payload: res.data.data
+        })
+        return true 
+    } else {
+        await dispatch({
+            type: 'ADD_EXPERIENCE_FAIL',
+            payload: res.data
+        })
+        return false
+    }
+}

@@ -10,8 +10,6 @@ function getJWT() {
     let current_time = Math.floor(Date.now() / 1000)
     current_time = parseInt(current_time)
 
-    console.log(current_time, exp, current_time < exp)
-
     if (current_time < exp) 
         return localStorage.getItem('token')
     else 
@@ -32,17 +30,23 @@ const getHeaders = (jwt=false) => {
 }
 
 export const loginUser = (user) => async dispatch => {
-    const headers = getHeaders()
+    let headers = getHeaders()
     const res = await axios.post(`${BASE_URL}/auth/login`, user, headers)
     console.log('LOGIN res.data: ', res.data)
     
     if (res.data.success) {
+        let headers = getHeaders(true)
+        const { data } = await axios.get(`${BASE_URL}/user/${res.data.data._id}`, headers)
+        res.data.data.user = data.data
+
         await dispatch({
             type: 'LOGIN_SUCCESS',
             payload: res.data.data
         })
+
         localStorage.setItem('token', res.data.data.token)
         localStorage.setItem('token_exp', res.data.data.exp)
+        
         return { success: true }
     } else {
         dispatch({

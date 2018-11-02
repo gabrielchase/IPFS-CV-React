@@ -16,17 +16,21 @@ function getJWT() {
         return false
 }
 
-const getHeaders = (jwt=false) => {
-    const headers = {
+const getHeaders = () => {
+    return {
         headers: {
             'Content-Type' : 'application/json'
         }
     } 
-    if (jwt) {
-        const token = getJWT()
-        headers['headers']['Authorization'] = `Bearer ${token}`
+}
+
+const getHeadersWithJWT = () => {
+    const token = getJWT()
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     }
-    return headers
 }
 
 export const loginUser = (user) => async dispatch => {
@@ -35,10 +39,6 @@ export const loginUser = (user) => async dispatch => {
     console.log('LOGIN res.data: ', res.data)
     
     if (res.data.success) {
-        let headers = getHeaders(true)
-        const { data } = await axios.get(`${BASE_URL}/user/${res.data.data._id}`, headers)
-        res.data.data.user = data.data
-
         await dispatch({
             type: 'LOGIN_SUCCESS',
             payload: res.data.data
@@ -56,3 +56,21 @@ export const loginUser = (user) => async dispatch => {
         return { success: false }
     }
 }
+
+export const getCurrentUser = (user_id) => async dispatch => {
+    let headers = getHeadersWithJWT()
+    const res = await axios.get(`${BASE_URL}/user/${user_id}`, headers)
+
+    if (res.data.success) {
+        await dispatch({
+            type: 'GET_CURRENT_USER_SUCCESS',
+            payload: res.data.data
+        })
+    } else {
+        dispatch({
+            type: 'GET_CURRENT_USER_FAIL',
+            payload: res.data
+        })
+    }
+}
+

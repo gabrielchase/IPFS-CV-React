@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Button, Dropdown, Form, Header, Modal, TextArea } from 'semantic-ui-react'
-import { PDFDownloadLink } from '@react-pdf/renderer'
+import axios from 'axios'
+import html2pdf from 'html2pdf.js'
 
 import { loginUser, getCurrentUser, addEducation, addExperience } from '../actions/index'
 import { DEGREE_OPTIONS } from '../constants'
-
-import { MyDocument } from './cv_view'
 
 const mapStateToProps = (state) => {
     return {
@@ -38,11 +37,31 @@ class Dashboard extends Component {
         this.handleNewExperienceChange = this.handleNewExperienceChange.bind(this)
         this.handleAddEducation = this.handleAddEducation.bind(this)
         this.handleAddExperience = this.handleAddExperience.bind(this)
+        this.handleUploadCV = this.handleUploadCV.bind(this)
     }
 
     async componentWillMount() {
         // this.props.getCurrentUser(this.props.auth._id)
         this.props.getCurrentUser('5bdab5f860a8be646c8da64a')
+    }
+
+    async handleUploadCV() {
+        const token = localStorage.getItem('token')
+        const cv = document.getElementById('body')
+        const cv_buffer = await html2pdf().from(cv).outputPdf()
+
+        const res = await axios.post(`http://localhost:3005/api/user/${this.props.current_user._id}/cv`, JSON.stringify({ data: cv_buffer }), {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        if (res.data.success) {
+            html2pdf(cv)
+        } else {
+            // Error message
+        }
     }
 
     handleNewEducationChange(e) {
@@ -147,14 +166,10 @@ class Dashboard extends Component {
         const { current_user } = this.props
         
         if (current_user._id) {
-            const DOWNLOADABLE_CV = <MyDocument current_user={current_user} />
-
             return ( 
-                <div>
+                <div id='body'>
                     Welcome {current_user.first_name} {current_user.last_name}
-                    <PDFDownloadLink document={DOWNLOADABLE_CV} fileName='somename.pdf'>{({ blob, url, loading, error }) => (
-                        loading ? 'Loading document...' : 'Download now!'
-                    )}</PDFDownloadLink>
+                    <Button color='red' onClick={() => this.handleUploadCV()}>Save CV</Button>
                     {this.renderEducation()}
                     <br/>
                     {this.renderExperience()}

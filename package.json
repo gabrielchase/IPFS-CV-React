@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@react-pdf/renderer": "^1.0.0-alpha.24",
     "axios": "^0.18.0",
     "connected-react-router": "^4.5.0",
     "dotenv": "^6.1.0",
     "history": "^4.7.2",
+    "html2pdf.js": "^0.9.1",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-redux": "^5.1.0",

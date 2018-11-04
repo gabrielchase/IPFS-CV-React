@@ -66,6 +66,7 @@ class Dashboard extends Component {
         console.log('res.data: ', res.data)
 
         if (res.data.success) {
+            await this.props.getCurrentUser(this.props.current_user._id)
             html2pdf(cv)
         } else {
             // Error message

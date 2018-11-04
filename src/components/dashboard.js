@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Button, Dropdown, Form, Header, Modal, TextArea } from 'semantic-ui-react'
 import axios from 'axios'
 import html2pdf from 'html2pdf.js'
+import { Container, Divider, Grid, Icon, Segment } from 'semantic-ui-react'
 
 import { loginUser, getCurrentUser, addEducation, addExperience } from '../actions/index'
 import { DEGREE_OPTIONS } from '../constants'
@@ -115,21 +116,30 @@ class Dashboard extends Component {
         const { current_user } = this.props
         if (current_user.education) {
             return (
-                <div>
-                    <h3>Education</h3>
-                    <Button className='add-education-button' color='green' onClick={() => this.setState({ education_modal_open: true })}>Add Education</Button>
+                <Segment raised>
+                    <Grid>
+                        <Grid.Column width={14}><h2>Education</h2></Grid.Column>    
+                        <Grid.Column width={2}><Icon floated='right' name='plus square outline' size='large' onClick={() => this.setState({ education_modal_open: true })} /></Grid.Column>    
+                    </Grid>                    
                     {
                         current_user.education.map((e, i) => {
                             return (
                                 <div key={i}>   
-                                    <p>{e.school}</p>
-                                    <p>{e.degree} {e.course}</p>
-                                    <p>{e.start_year} - {e.end_year}</p>
+                                    <Divider />
+                                    <Grid>
+                                        <Grid.Column width={14}><h3>{e.school}</h3></Grid.Column>
+                                        <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ education_modal_open: true })} /></Grid.Column>
+                                    </Grid>
+                                    <p>
+                                        {e.degree} {e.course}
+                                        <br />
+                                        {e.start_year} - {e.end_year}
+                                    </p>
                                 </div>
                             )
                         })
                     }
-                </div>
+                </Segment>
             )
         } else {
             return <div></div>
@@ -138,24 +148,37 @@ class Dashboard extends Component {
 
     renderExperience() {
         const { current_user } = this.props
+        
         if (current_user.experience) {
             return (
-                <div>
-                    <h3>Experience</h3>
-                    <Button className='add-experience-button' color='green' onClick={() => this.setState({ experience_modal_open: true })}>Add Experience</Button>
+                <Segment raised>
+                <Grid>
+                        <Grid.Column width={14}><h2>Experience</h2></Grid.Column>    
+                        <Grid.Column width={2}><Icon floated='right' name='plus square outline' size='large' onClick={() => this.setState({ experience_modal_open: true })} /></Grid.Column>    
+                    </Grid>        
                     {
                         current_user.experience.map((e, i) => {
+                            const start_date = e.start_date.split(' ')
+                            const end_date = e.end_date.split(' ')
                             return (
                                 <div key={i}>   
-                                    <p>{e.company}</p>
-                                    <p>{e.position}</p>
-                                    <p>{e.description}</p>
-                                    <p>{e.start_date} - {e.end_date}</p>
+                                    <Divider />
+                                    <Grid>
+                                        <Grid.Column width={14}><h3>{e.company}</h3></Grid.Column>
+                                        <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ experience_modal_open: true })} /></Grid.Column>
+                                    </Grid>
+                                    <p>
+                                        <strong>{e.position}</strong>
+                                        <br />
+                                        {start_date[1]} {start_date[3]} - {end_date[1]} {end_date[3]}
+                                        <br />
+                                        {e.description}
+                                    </p>
                                 </div>
                             )
                         })
                     }
-                </div>
+                </Segment>
             )
         } else {
             return <div></div>
@@ -167,54 +190,64 @@ class Dashboard extends Component {
         
         if (current_user._id) {
             return ( 
-                <div id='body'>
-                    Welcome {current_user.first_name} {current_user.last_name}
-                    <Button color='red' onClick={() => this.handleUploadCV()}>Save CV</Button>
-                    {this.renderEducation()}
-                    <br/>
-                    {this.renderExperience()}
-    
-                    <Modal open={this.state.education_modal_open} onClose={() => this.setState({ education_modal_open: false })}>
-                        <Header content='Education' />
-                        <Modal.Content>
-                            <Form>
-                                <Form.Input fluid label='School' id='school' placeholder='School' onChange={this.handleNewEducationChange}  />
-                                <label><strong>Degree</strong></label>
-                                <Dropdown placeholder='Degree' field='degree' onChange={this.handleEducationDegreeSelectField} fluid search selection options={DEGREE_OPTIONS} />
-                                <br />
-                                <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleNewEducationChange}  />
-                                <Form.Input fluid label='Start Year' id='start_year' placeholder='Start Year' onChange={this.handleNewEducationChange}  />
-                                <Form.Input fluid label='End Year' id='end_year' placeholder='End Year' onChange={this.handleNewEducationChange}  />
-                            </Form>
-                        </Modal.Content>
-                        <Modal.Actions>
-                            <Button color='green' onClick={this.handleAddEducation}>
-                                Save
-                            </Button>
-                        </Modal.Actions>
-                    </Modal>
-    
-                    <Modal open={this.state.experience_modal_open} onClose={() => this.setState({ experience_modal_open: false })}>
-                        <Header content='Experience' />
-                        <Modal.Content>
-                            <Form>
-                                <Form.Input fluid label='Company' id='company' placeholder='Company' onChange={this.handleNewExperienceChange}  />
-                                <Form.Input fluid label='Position' id='position' placeholder='Position' onChange={this.handleNewExperienceChange}  />
-                                <label><strong>Description</strong></label>
-                                <TextArea fluid id='description' placeholder='Description' onChange={this.handleNewExperienceChange}  />
-                                <br />
-                                <br />
-                                <Form.Input fluid label='Start Date' id='start_date' placeholder='Start Date' onChange={this.handleNewExperienceChange}  />
-                                <Form.Input fluid label='End Date' id='end_date' placeholder='End Date' onChange={this.handleNewExperienceChange}  />
-                            </Form>
-                        </Modal.Content>
-                        <Modal.Actions>
-                            <Button color='green' onClick={this.handleAddExperience}>
-                                Save
-                            </Button>
-                        </Modal.Actions>
-                    </Modal>
-                </div>            
+                <Container>
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column width={8}>
+                            
+                                <div id='body'>
+                                    Welcome {current_user.first_name} {current_user.last_name}
+                                    <Button color='red' onClick={() => this.handleUploadCV()}>Save CV</Button>
+                                    {this.renderEducation()}
+                                    {this.renderExperience()}
+                    
+                                    <Modal open={this.state.education_modal_open} onClose={() => this.setState({ education_modal_open: false })}>
+                                        <Header content='Education' />
+                                        <Modal.Content>
+                                            <Form>
+                                                <Form.Input fluid label='School' id='school' placeholder='School' onChange={this.handleNewEducationChange}  />
+                                                <label><strong>Degree</strong></label>
+                                                <Dropdown placeholder='Degree' field='degree' onChange={this.handleEducationDegreeSelectField} fluid search selection options={DEGREE_OPTIONS} />
+                                                <br />
+                                                <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleNewEducationChange}  />
+                                                <Form.Input fluid label='Start Year' id='start_year' placeholder='Start Year' onChange={this.handleNewEducationChange}  />
+                                                <Form.Input fluid label='End Year' id='end_year' placeholder='End Year' onChange={this.handleNewEducationChange}  />
+                                            </Form>
+                                        </Modal.Content>
+                                        <Modal.Actions>
+                                            <Button color='green' onClick={this.handleAddEducation}>
+                                                Save
+                                            </Button>
+                                        </Modal.Actions>
+                                    </Modal>
+                    
+                                    <Modal open={this.state.experience_modal_open} onClose={() => this.setState({ experience_modal_open: false })}>
+                                        <Header content='Experience' />
+                                        <Modal.Content>
+                                            <Form>
+                                                <Form.Input fluid label='Company' id='company' placeholder='Company' onChange={this.handleNewExperienceChange}  />
+                                                <Form.Input fluid label='Position' id='position' placeholder='Position' onChange={this.handleNewExperienceChange}  />
+                                                <label><strong>Description</strong></label>
+                                                <TextArea fluid id='description' placeholder='Description' onChange={this.handleNewExperienceChange}  />
+                                                <br />
+                                                <br />
+                                                <Form.Input fluid label='Start Date' id='start_date' placeholder='Start Date' onChange={this.handleNewExperienceChange}  />
+                                                <Form.Input fluid label='End Date' id='end_date' placeholder='End Date' onChange={this.handleNewExperienceChange}  />
+                                            </Form>
+                                        </Modal.Content>
+                                        <Modal.Actions>
+                                            <Button color='green' onClick={this.handleAddExperience}>
+                                                Save
+                                            </Button>
+                                        </Modal.Actions>
+                                    </Modal>
+                                </div>            
+                            
+                        </Grid.Column>
+                        <Grid.Column width={8}>Preview Here</Grid.Column>`
+                    </Grid.Row>
+                </Grid>
+                </Container>
             )
         } else {
             return (

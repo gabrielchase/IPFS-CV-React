@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Button, Dropdown, Form, Header, Modal, TextArea, Container, Divider, Grid, Icon, Menu, Segment } from 'semantic-ui-react'
+import { Button, Dropdown, Form, Header, Modal, TextArea, Container, Divider, Grid, Icon, Segment } from 'semantic-ui-react'
 import { push } from 'connected-react-router'
 import html2pdf from 'html2pdf.js'
 import axios from 'axios'
@@ -9,6 +9,7 @@ import axios from 'axios'
 import { loginUser, getCurrentUser, addEducation, addExperience } from '../actions/index'
 import { DEGREE_OPTIONS } from '../constants'
 import { CV_View } from './cv_view'
+import Navbar from './navbar'
 
 const mapStateToProps = (state) => {
     return {
@@ -193,21 +194,7 @@ class Dashboard extends Component {
         if (current_user._id) {
             return ( 
                 <div>
-                    <Menu>
-                        <Menu.Item name='home' onClick={() => this.props.gotoHome()}>
-                            Home
-                        </Menu.Item>
-
-                        <Menu.Item name='history' onClick={() => this.props.gotoHistory()}>
-                            History
-                        </Menu.Item>
-
-                        <Menu.Menu position='right'>
-                            <Menu.Item name='logout' onClick={() => this.props.gotoLogin()}>
-                                Log Out
-                            </Menu.Item>
-                        </Menu.Menu>
-                    </Menu>
+                    <Navbar />
                     <Container>
                         <Grid>
                             <Grid.Row>

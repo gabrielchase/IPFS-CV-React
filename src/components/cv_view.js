@@ -1,25 +1,56 @@
 import React from 'react'
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
+import { Container, Segment, Grid } from 'semantic-ui-react'
 
-const styles = StyleSheet.create({
-    page: {
-        flexDirection: 'row',
-        backgroundColor: '#E4E4E4'
-    },
-    section: {
-        margin: 10,
-        padding: 10,
-        flexGrow: 1
-    }
-})
-
-export const MyDocument = ({ current_user }) => (
-    <Document>
-        <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
-                <Text>{current_user.first_name} {current_user.last_name}</Text>
-                <Text>{current_user.email}</Text>
-            </View>
-        </Page>
-    </Document>
+export const CV_View = ({ current_user }) => (
+    <Segment raised>
+        <Container id='cv-preview'>
+            <br />
+            <Grid centered>
+                <h2>{ current_user.first_name } { current_user.last_name}</h2>
+            </Grid>
+            <Grid centered>
+                { current_user.email }
+            </Grid>
+            <br />
+            <br />
+            <Grid centered>
+                <h3>Education</h3>
+            </Grid>
+            <br />
+            {
+                current_user.education.map((e, i) => {
+                    return (
+                        <div key={i}>   
+                            <strong>{e.school}</strong> <span float='right'>{e.start_year} - {e.end_year}</span>
+                            <br />
+                            {e.degree} {e.course}
+                            <br />
+                            <br />
+                        </div>
+                    )
+                })
+            }
+            <br />
+            <br />
+            <Grid centered>
+                <h3>Experience</h3>
+            </Grid>
+            <br />
+            {
+                current_user.experience.map((e, i) => {
+                    return (
+                        <div key={i}>   
+                            <strong>{e.company}</strong> <span float='right'>{e.start_date.split(' ')[1]} {e.start_date.split(' ')[3]} - {e.end_date.split(' ')[1]} {e.end_date.split(' ')[3]}</span>
+                            <br />
+                            {e.position}    
+                            <br />
+                            {e.description}
+                            <br />
+                            <br />
+                        </div>
+                    )
+                })
+            }
+        </Container>
+    </Segment>
 )

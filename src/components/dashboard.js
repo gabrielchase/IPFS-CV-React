@@ -8,6 +8,7 @@ import { Container, Divider, Grid, Icon, Segment } from 'semantic-ui-react'
 
 import { loginUser, getCurrentUser, addEducation, addExperience } from '../actions/index'
 import { DEGREE_OPTIONS } from '../constants'
+import { CV_View } from './cv_view'
 
 const mapStateToProps = (state) => {
     return {
@@ -48,7 +49,7 @@ class Dashboard extends Component {
 
     async handleUploadCV() {
         const token = localStorage.getItem('token')
-        const cv = document.getElementById('body')
+        const cv = document.getElementById('cv-preview')
         const cv_buffer = await html2pdf().from(cv).outputPdf()
 
         const res = await axios.post(`http://localhost:3005/api/user/${this.props.current_user._id}/cv`, JSON.stringify({ data: cv_buffer }), {
@@ -130,11 +131,9 @@ class Dashboard extends Component {
                                         <Grid.Column width={14}><h3>{e.school}</h3></Grid.Column>
                                         <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ education_modal_open: true })} /></Grid.Column>
                                     </Grid>
-                                    <p>
-                                        {e.degree} {e.course}
-                                        <br />
-                                        {e.start_year} - {e.end_year}
-                                    </p>
+                                    {e.degree} {e.course}
+                                    <br />
+                                    {e.start_year} - {e.end_year}
                                 </div>
                             )
                         })
@@ -152,7 +151,7 @@ class Dashboard extends Component {
         if (current_user.experience) {
             return (
                 <Segment raised>
-                <Grid>
+                    <Grid>
                         <Grid.Column width={14}><h2>Experience</h2></Grid.Column>    
                         <Grid.Column width={2}><Icon floated='right' name='plus square outline' size='large' onClick={() => this.setState({ experience_modal_open: true })} /></Grid.Column>    
                     </Grid>        
@@ -167,13 +166,11 @@ class Dashboard extends Component {
                                         <Grid.Column width={14}><h3>{e.company}</h3></Grid.Column>
                                         <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ experience_modal_open: true })} /></Grid.Column>
                                     </Grid>
-                                    <p>
-                                        <strong>{e.position}</strong>
-                                        <br />
-                                        {start_date[1]} {start_date[3]} - {end_date[1]} {end_date[3]}
-                                        <br />
-                                        {e.description}
-                                    </p>
+                                    <strong>{e.position}</strong>
+                                    <br />
+                                    {start_date[1]} {start_date[3]} - {end_date[1]} {end_date[3]}
+                                    <br />
+                                    {e.description}
                                 </div>
                             )
                         })
@@ -194,10 +191,9 @@ class Dashboard extends Component {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column width={8}>
-                            
                                 <div id='body'>
-                                    Welcome {current_user.first_name} {current_user.last_name}
-                                    <Button color='red' onClick={() => this.handleUploadCV()}>Save CV</Button>
+                                    <br />
+                                    <h3>Welcome {current_user.first_name} {current_user.last_name}</h3>
                                     {this.renderEducation()}
                                     {this.renderExperience()}
                     
@@ -244,7 +240,17 @@ class Dashboard extends Component {
                                 </div>            
                             
                         </Grid.Column>
-                        <Grid.Column width={8}>Preview Here</Grid.Column>`
+                        <Grid.Column width={8}>
+                            <br />
+                            <br />
+                            <Container>
+                                <Grid>
+                                    <Grid.Column width={12}></Grid.Column>    
+                                    <Grid.Column width={4}><Button color='blue' float='right' onClick={() => this.handleUploadCV()}>Save CV</Button></Grid.Column>
+                                </Grid>        
+                            </Container>
+                            <CV_View current_user={current_user} />
+                        </Grid.Column>
                     </Grid.Row>
                 </Grid>
                 </Container>

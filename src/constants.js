@@ -7,3 +7,5 @@ export const DEGREE_OPTIONS = [
     { key: 'BA', value: 'BA', text: "Bachelor's Degree (BA)" }, 
     { key: 'HS Diploma', value: 'HS Diploma', text: "High School Diploma" }, 
 ]
+
+export const IPFS_URL = 'http://gateway.ipfs.io/ipfs'

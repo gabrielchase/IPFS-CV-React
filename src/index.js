@@ -12,6 +12,7 @@ import serviceWorker from './serviceWorker'
 
 import Login from './components/login'
 import Dashboard from './components/dashboard'
+import History from './components/history'
 
 // const verifyJWT = () => {
 //     console.log('verifying jwt')
@@ -54,6 +55,7 @@ render(
             <Switch>
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/dashboard' component={Dashboard} />
+                <Route exact path='/history' component={History} />
             </Switch>        
         </ConnectedRouter>
     </Provider>,

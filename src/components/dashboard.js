@@ -6,7 +6,7 @@ import { push } from 'connected-react-router'
 import html2pdf from 'html2pdf.js'
 import axios from 'axios'
 
-import { loginUser, getCurrentUser, addEducation, addExperience, updateEducation } from '../actions/index'
+import { loginUser, getCurrentUser, addEducation, addExperience, updateEducation, updateExperience } from '../actions/index'
 import { DEGREE_OPTIONS } from '../constants'
 import { CV_View } from './cv_view'
 import Navbar from './navbar'
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    loginUser, getCurrentUser, addEducation, addExperience, updateEducation,
+    loginUser, getCurrentUser, addEducation, addExperience, updateEducation, updateExperience,
     gotoHome: () => push('/dashboard'),
     gotoHistory: () => push('/history'),
     gotoLogin: () => push('/login'),
@@ -47,11 +47,13 @@ class Dashboard extends Component {
         this.handleEditEducationChange = this.handleEditEducationChange.bind(this)
         
         this.handleNewExperienceChange = this.handleNewExperienceChange.bind(this)
+        this.handleEditExperienceChange = this.handleEditExperienceChange.bind(this)
         
         this.handleAddEducation = this.handleAddEducation.bind(this)
         this.handleUpdateEducation = this.handleUpdateEducation.bind(this)
         
         this.handleAddExperience = this.handleAddExperience.bind(this)
+        this.handleUpdateExperience = this.handleUpdateExperience.bind(this)
         
         this.handleUploadCV = this.handleUploadCV.bind(this)
     }
@@ -107,6 +109,14 @@ class Dashboard extends Component {
         this.setState({ new_experience })
     }
 
+    handleEditExperienceChange(e) { 
+        e.preventDefault()
+        const edit_experience = Object.assign({}, this.state.edit_experience, {
+            [e.target.id]: e.target.value
+        })
+        this.setState({ edit_experience })
+    }
+
     handleEducationDegreeSelectField = async (e, { field, value }) => {
         const new_edcation = Object.assign({}, this.state.new_edcation, {
             [field]: value
@@ -145,6 +155,18 @@ class Dashboard extends Component {
         if (success) {
             await this.props.getCurrentUser(this.props.current_user._id)
             this.setState({ experience_modal_open: false })
+        } else {
+            // Error message
+        }
+    }
+
+    async handleUpdateExperience(e) {
+        e.preventDefault() 
+        const success = await this.props.updateExperience(this.props.current_user._id, this.state.edit_experience)
+
+        if (success) {
+            await this.props.getCurrentUser(this.props.current_user._id)
+            this.setState({ edit_experience_modal_open: false })
         } else {
             // Error message
         }
@@ -201,7 +223,7 @@ class Dashboard extends Component {
                                     <Divider />
                                     <Grid>
                                         <Grid.Column width={14}><h3>{e.company}</h3></Grid.Column>
-                                        <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ experience_modal_open: true })} /></Grid.Column>
+                                        <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ edit_experience_modal_open: true, edit_experience: e })} /></Grid.Column>
                                     </Grid>
                                     <strong>{e.position}</strong>
                                     <br />
@@ -288,6 +310,27 @@ class Dashboard extends Component {
                                                 </Modal.Content>
                                                 <Modal.Actions>
                                                     <Button color='green' onClick={this.handleAddExperience}>
+                                                        Save
+                                                    </Button>
+                                                </Modal.Actions>
+                                            </Modal>
+
+                                            <Modal open={this.state.edit_experience_modal_open} onClose={() => this.setState({ edit_experience_modal_open: false })}>
+                                                <Header content='Experience' />
+                                                <Modal.Content>
+                                                    <Form>
+                                                        <Form.Input fluid label='Company' id='company' placeholder='Company' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.company} />
+                                                        <Form.Input fluid label='Position' id='position' placeholder='Position' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.position} />
+                                                        <label><strong>Description</strong></label>
+                                                        <TextArea fluid id='description' placeholder='Description' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.description} />
+                                                        <br />
+                                                        <br />
+                                                        <Form.Input fluid label='Start Date' id='start_date' placeholder='Start Date' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.start_date} />
+                                                        <Form.Input fluid label='End Date' id='end_date' placeholder='End Date' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.end_date} />
+                                                    </Form>
+                                                </Modal.Content>
+                                                <Modal.Actions>
+                                                    <Button color='green' onClick={this.handleUpdateExperience}>
                                                         Save
                                                     </Button>
                                                 </Modal.Actions>

@@ -115,7 +115,6 @@ export const updateEducation = (user_id, education) => async dispatch => {
     }
 }
 
-
 export const addExperience = (user_id, experience) => async dispatch =>{
     const headers = getHeadersWithJWT()
     const res = await axios.post(`${BASE_URL}/user/${user_id}/experience`, experience, headers)
@@ -135,3 +134,24 @@ export const addExperience = (user_id, experience) => async dispatch =>{
         return false
     }
 }
+
+export const updateExperience = (user_id, experience) => async dispatch =>{
+    const headers = getHeadersWithJWT()
+    const res = await axios.put(`${BASE_URL}/user/${user_id}/experience/${experience._id}`, experience, headers)
+    console.log('UPDATE EXPERIENCE res.data: ', res.data) 
+
+    if (res.data.success) {
+        await dispatch({
+            type: 'UPDATE_EXPERIENCE_SUCCESS',
+            payload: res.data.data
+        })
+        return true 
+    } else {
+        await dispatch({
+            type: 'UPDATE_EXPERIENCE_FAIL',
+            payload: res.data
+        })
+        return false
+    }
+}
+

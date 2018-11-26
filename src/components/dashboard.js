@@ -297,13 +297,12 @@ class Dashboard extends Component {
                                                 <Header content='Education' />
                                                 <Modal.Content>
                                                     <Form>
-                                                        <Form.Input fluid label='School' id='school' placeholder='School' onChange={this.handleNewEducationChange}  />
-                                                        {/* <label><strong>Degree</strong></label>
-                                                        <Dropdown placeholder='Degree' field='degree' onChange={this.handleEducationDegreeSelectField} fluid search selection options={DEGREE_OPTIONS} value={this.state.edit_education._id ? this.state.edit_education.degree : ''} />
-                                                        <br /> */}
-                                                        <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleNewEducationChange}  />
-                                                        <Form.Input fluid label='Start Year' id='start_date' placeholder='Start Year' onChange={this.handleNewEducationChange}  />
-                                                        <Form.Input fluid label='End Year' id='end_date' placeholder='End Year' onChange={this.handleNewEducationChange}   />
+                                                        <Form.Input fluid label='School' id='school' placeholder='Harvard University' onChange={this.handleNewEducationChange}  />
+                                                        <Form.Input fluid label='Course' id='course' placeholder='MS Computer Science' onChange={this.handleNewEducationChange}  />
+                                                        <Grid>
+                                                            <Grid.Column width={8}><Form.Input fluid label='Start Date' id='start_date' placeholder='ex: 2018-01' onChange={this.handleNewEducationChange}  /></Grid.Column>
+                                                            <Grid.Column width={8}><Form.Input fluid label='End Date' id='end_date' placeholder='ex: 2018-12' onChange={this.handleNewEducationChange} /></Grid.Column>
+                                                        </Grid>
                                                     </Form>
                                                 </Modal.Content>
                                                 <Modal.Actions>
@@ -317,10 +316,12 @@ class Dashboard extends Component {
                                                 <Header content='Education' />
                                                 <Modal.Content>
                                                     <Form>
-                                                        <Form.Input fluid label='School' id='school' placeholder='School' onChange={this.handleEditEducationChange} value={edit_education.school} />
-                                                        <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleEditEducationChange} value={edit_education.course} />
-                                                        <Form.Input fluid label='Start Year' id='start_date' placeholder='Start Year' onChange={this.handleEditEducationChange} value={displayYearDateInput(edit_education.start_date)} />
-                                                        <Form.Input fluid label='End Year' id='end_date' placeholder='End Year' onChange={this.handleEditEducationChange} value={displayYearDateInput(edit_education.end_date)} />
+                                                        <Form.Input fluid label='School' id='school' placeholder='Harvard University' onChange={this.handleEditEducationChange} value={edit_education.school} />
+                                                        <Form.Input fluid label='Course' id='course' placeholder='MS Computer Science' onChange={this.handleEditEducationChange} value={edit_education.course} />
+                                                        <Grid>
+                                                            <Grid.Column width={8}><Form.Input fluid label='Start Date' id='start_date' placeholder='ex: 2018-01' onChange={this.handleEditEducationChange} value={displayYearDateInput(edit_education.start_date)} /></Grid.Column>
+                                                            <Grid.Column width={8}><Form.Input fluid label='End Date' id='end_date' placeholder='ex: 2018-12' onChange={this.handleEditEducationChange} value={displayYearDateInput(edit_education.end_date)} /></Grid.Column>
+                                                        </Grid>
                                                     </Form>
                                                 </Modal.Content>
                                                 <Modal.Actions>
@@ -334,14 +335,14 @@ class Dashboard extends Component {
                                                 <Header content='Experience' />
                                                 <Modal.Content>
                                                     <Form>
-                                                        <Form.Input fluid label='Company' id='company' placeholder='Company' onChange={this.handleNewExperienceChange}  />
-                                                        <Form.Input fluid label='Position' id='position' placeholder='Position' onChange={this.handleNewExperienceChange}  />
+                                                        <Form.Input fluid label='Company' id='company' placeholder='Google' onChange={this.handleNewExperienceChange}  />
+                                                        <Form.Input fluid label='Position' id='position' placeholder='Senior Software Engineer' onChange={this.handleNewExperienceChange}  />
                                                         <label><strong>Description</strong></label>
                                                         <TextArea fluid id='description' placeholder='Description' onChange={this.handleNewExperienceChange}  />
                                                         <br />
                                                         <br />
-                                                        <Form.Input fluid label='Start Date' id='start_date' placeholder='Start Date' onChange={this.handleNewExperienceChange}  />
-                                                        <Form.Input fluid label='End Date' id='end_date' placeholder='End Date' onChange={this.handleNewExperienceChange}  />
+                                                        <Form.Input fluid label='Start Date' id='start_date' placeholder='ex: 2018-01' onChange={this.handleNewExperienceChange}  />
+                                                        <Form.Input fluid label='End Date' id='end_date' placeholder='ex: 2018-12' onChange={this.handleNewExperienceChange}  />
                                                     </Form>
                                                 </Modal.Content>
                                                 <Modal.Actions>
@@ -355,14 +356,14 @@ class Dashboard extends Component {
                                                 <Header content='Experience' />
                                                 <Modal.Content>
                                                     <Form>
-                                                        <Form.Input fluid label='Company' id='company' placeholder='Company' onChange={this.handleEditExperienceChange} value={edit_experience.company} />
-                                                        <Form.Input fluid label='Position' id='position' placeholder='Position' onChange={this.handleEditExperienceChange} value={edit_experience.position} />
+                                                        <Form.Input fluid label='Company' id='company' placeholder='Google' onChange={this.handleEditExperienceChange} value={edit_experience.company} />
+                                                        <Form.Input fluid label='Position' id='position' placeholder='Senior Software Engineer' onChange={this.handleEditExperienceChange} value={edit_experience.position} />
                                                         <label><strong>Description</strong></label>
                                                         <TextArea fluid id='description' placeholder='Description' onChange={this.handleEditExperienceChange} value={edit_experience.description} />
                                                         <br />
                                                         <br />
-                                                        <Form.Input fluid label='Start Date' id='start_date' placeholder='Start Date' onChange={this.handleEditExperienceChange} value={displayYearDateInput(edit_experience.start_date)} />
-                                                        <Form.Input fluid label='End Date' id='end_date' placeholder='End Date' onChange={this.handleEditExperienceChange} value={displayYearDateInput(edit_experience.end_date)} />
+                                                        <Form.Input fluid label='Start Date' id='start_date' placeholder='ex: 2018-01' onChange={this.handleEditExperienceChange} value={displayYearDateInput(edit_experience.start_date)} />
+                                                        <Form.Input fluid label='End Date' id='end_date' placeholder='ex: 2018-12' onChange={this.handleEditExperienceChange} value={displayYearDateInput(edit_experience.end_date)} />
                                                     </Form>
                                                 </Modal.Content>
                                                 <Modal.Actions>

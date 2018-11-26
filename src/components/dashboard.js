@@ -6,7 +6,7 @@ import { push } from 'connected-react-router'
 import html2pdf from 'html2pdf.js'
 import axios from 'axios'
 
-import { loginUser, getCurrentUser, addEducation, addExperience } from '../actions/index'
+import { loginUser, getCurrentUser, addEducation, addExperience, updateEducation } from '../actions/index'
 import { DEGREE_OPTIONS } from '../constants'
 import { CV_View } from './cv_view'
 import Navbar from './navbar'
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    loginUser, getCurrentUser, addEducation, addExperience,
+    loginUser, getCurrentUser, addEducation, addExperience, updateEducation,
     gotoHome: () => push('/dashboard'),
     gotoHistory: () => push('/history'),
     gotoLogin: () => push('/login'),
@@ -31,18 +31,28 @@ class Dashboard extends Component {
 
         this.state = {
             education_modal_open: false,
+            edit_education_modal_open: false,
             experience_modal_open: false,
             
             new_education: {},
             new_experience: {},
+
+            edit_education: {},
+            edit_experience: {},
             
             render_pdf: false
         }
 
         this.handleNewEducationChange = this.handleNewEducationChange.bind(this)
+        this.handleEditEducationChange = this.handleEditEducationChange.bind(this)
+        
         this.handleNewExperienceChange = this.handleNewExperienceChange.bind(this)
+        
         this.handleAddEducation = this.handleAddEducation.bind(this)
+        this.handleUpdateEducation = this.handleUpdateEducation.bind(this)
+        
         this.handleAddExperience = this.handleAddExperience.bind(this)
+        
         this.handleUploadCV = this.handleUploadCV.bind(this)
     }
 
@@ -81,6 +91,14 @@ class Dashboard extends Component {
         this.setState({ new_education })
     }
 
+    handleEditEducationChange(e) {
+        e.preventDefault()
+        const edit_education = Object.assign({}, this.state.edit_education, {
+            [e.target.id]: e.target.value
+        })
+        this.setState({ edit_education })
+    }
+
     handleNewExperienceChange(e) { 
         e.preventDefault()
         const new_experience = Object.assign({}, this.state.new_experience, {
@@ -103,6 +121,18 @@ class Dashboard extends Component {
         if (success) {
             await this.props.getCurrentUser(this.props.current_user._id)
             this.setState({ education_modal_open: false })
+        } else {
+            // Error message
+        }
+    }
+    
+    async handleUpdateEducation(e) {
+        e.preventDefault() 
+        const success = await this.props.updateEducation(this.props.current_user._id, this.state.edit_education)
+
+        if (success) {
+            await this.props.getCurrentUser(this.props.current_user._id)
+            this.setState({ edit_education_modal_open: false })
         } else {
             // Error message
         }
@@ -136,7 +166,7 @@ class Dashboard extends Component {
                                     <Divider />
                                     <Grid>
                                         <Grid.Column width={14}><h3>{e.school}</h3></Grid.Column>
-                                        <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ education_modal_open: true })} /></Grid.Column>
+                                        <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ edit_education_modal_open: true, edit_education: e })} /></Grid.Column>
                                     </Grid>
                                     {e.degree} {e.course}
                                     <br />
@@ -210,16 +240,33 @@ class Dashboard extends Component {
                                                 <Modal.Content>
                                                     <Form>
                                                         <Form.Input fluid label='School' id='school' placeholder='School' onChange={this.handleNewEducationChange}  />
-                                                        <label><strong>Degree</strong></label>
-                                                        <Dropdown placeholder='Degree' field='degree' onChange={this.handleEducationDegreeSelectField} fluid search selection options={DEGREE_OPTIONS} />
-                                                        <br />
+                                                        {/* <label><strong>Degree</strong></label>
+                                                        <Dropdown placeholder='Degree' field='degree' onChange={this.handleEducationDegreeSelectField} fluid search selection options={DEGREE_OPTIONS} value={this.state.edit_education._id ? this.state.edit_education.degree : ''} />
+                                                        <br /> */}
                                                         <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleNewEducationChange}  />
                                                         <Form.Input fluid label='Start Year' id='start_date' placeholder='Start Year' onChange={this.handleNewEducationChange}  />
-                                                        <Form.Input fluid label='End Year' id='end_date' placeholder='End Year' onChange={this.handleNewEducationChange}  />
+                                                        <Form.Input fluid label='End Year' id='end_date' placeholder='End Year' onChange={this.handleNewEducationChange}   />
                                                     </Form>
                                                 </Modal.Content>
                                                 <Modal.Actions>
                                                     <Button color='green' onClick={this.handleAddEducation}>
+                                                        Save
+                                                    </Button>
+                                                </Modal.Actions>
+                                            </Modal>
+
+                                            <Modal open={this.state.edit_education_modal_open} onClose={() => this.setState({ edit_education_modal_open: false })}>
+                                                <Header content='Education' />
+                                                <Modal.Content>
+                                                    <Form>
+                                                        <Form.Input fluid label='School' id='school' placeholder='School' onChange={this.handleEditEducationChange} value={this.state.edit_education.school} />
+                                                        <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleEditEducationChange} value={this.state.edit_education.course} />
+                                                        <Form.Input fluid label='Start Year' id='start_date' placeholder='Start Year' onChange={this.handleEditEducationChange} value={this.state.edit_education.start_date} />
+                                                        <Form.Input fluid label='End Year' id='end_date' placeholder='End Year' onChange={this.handleEditEducationChange} value={this.state.edit_education.end_date} />
+                                                    </Form>
+                                                </Modal.Content>
+                                                <Modal.Actions>
+                                                    <Button color='green' onClick={this.handleUpdateEducation}>
                                                         Save
                                                     </Button>
                                                 </Modal.Actions>

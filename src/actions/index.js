@@ -75,7 +75,7 @@ export const getCurrentUser = (user_id) => async dispatch => {
     }
 }
 
-export const addEducation = (user_id, education) => async dispatch =>{
+export const addEducation = (user_id, education) => async dispatch => {
     const headers = getHeadersWithJWT()
     const res = await axios.post(`${BASE_URL}/user/${user_id}/education`, education, headers)
     console.log('ADD EDUCATION res.data: ', res.data) 
@@ -89,6 +89,26 @@ export const addEducation = (user_id, education) => async dispatch =>{
     } else {
         await dispatch({
             type: 'ADD_EDUCATION_FAIL',
+            payload: res.data
+        })
+        return false
+    }
+}
+
+export const updateEducation = (user_id, education) => async dispatch => {
+    const headers = getHeadersWithJWT()
+    const res = await axios.put(`${BASE_URL}/user/${user_id}/education/${education._id}`, education, headers)
+    console.log('UPDATE EDUCATION res.data: ', res.data) 
+
+    if (res.data.success) {
+        await dispatch({
+            type: 'UPDATE_EDUCATION_SUCCESS',
+            payload: res.data.data
+        })
+        return true 
+    } else {
+        await dispatch({
+            type: 'UPDATE_EDUCATION_FAIL',
             payload: res.data
         })
         return false

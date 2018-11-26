@@ -187,8 +187,10 @@ class Dashboard extends Component {
                                 <div key={i}>   
                                     <Divider />
                                     <Grid>
-                                        <Grid.Column width={14}><h3>{e.school}</h3></Grid.Column>
-                                        <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ edit_education_modal_open: true, edit_education: e })} /></Grid.Column>
+                                        <Grid.Column width={13}><h3>{e.school}</h3></Grid.Column>
+                                        <Grid.Column width={1}><Icon name='edit'  onClick={() => this.setState({ edit_education_modal_open: true, edit_education: e })} /></Grid.Column>
+                                        <Grid.Column width={1}><Icon name='delete' /></Grid.Column>
+                                        <Grid.Column width={1}></Grid.Column>
                                     </Grid>
                                     {e.degree} {e.course}
                                     <br />
@@ -222,8 +224,10 @@ class Dashboard extends Component {
                                 <div key={i}>   
                                     <Divider />
                                     <Grid>
-                                        <Grid.Column width={14}><h3>{e.company}</h3></Grid.Column>
-                                        <Grid.Column width={2}><Icon floated='right' name='edit'  onClick={() => this.setState({ edit_experience_modal_open: true, edit_experience: e })} /></Grid.Column>
+                                        <Grid.Column width={13}><h3>{e.company}</h3></Grid.Column>
+                                        <Grid.Column width={1}><Icon floated='right' name='edit'  onClick={() => this.setState({ edit_experience_modal_open: true, edit_experience: e })} /></Grid.Column>
+                                        <Grid.Column width={1}><Icon floated='right' name='delete' /></Grid.Column>    
+                                        <Grid.Column width={1}></Grid.Column>
                                     </Grid>
                                     <strong>{e.position}</strong>
                                     <br />

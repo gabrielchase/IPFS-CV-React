@@ -140,7 +140,7 @@ class Dashboard extends Component {
                                     </Grid>
                                     {e.degree} {e.course}
                                     <br />
-                                    {e.start_year} - {e.end_year}
+                                    {e.start_date} - {e.end_date}
                                 </div>
                             )
                         })
@@ -214,8 +214,8 @@ class Dashboard extends Component {
                                                         <Dropdown placeholder='Degree' field='degree' onChange={this.handleEducationDegreeSelectField} fluid search selection options={DEGREE_OPTIONS} />
                                                         <br />
                                                         <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleNewEducationChange}  />
-                                                        <Form.Input fluid label='Start Year' id='start_year' placeholder='Start Year' onChange={this.handleNewEducationChange}  />
-                                                        <Form.Input fluid label='End Year' id='end_year' placeholder='End Year' onChange={this.handleNewEducationChange}  />
+                                                        <Form.Input fluid label='Start Year' id='start_date' placeholder='Start Year' onChange={this.handleNewEducationChange}  />
+                                                        <Form.Input fluid label='End Year' id='end_date' placeholder='End Year' onChange={this.handleNewEducationChange}  />
                                                     </Form>
                                                 </Modal.Content>
                                                 <Modal.Actions>

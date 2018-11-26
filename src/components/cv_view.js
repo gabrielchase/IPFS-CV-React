@@ -21,7 +21,7 @@ export const CV_View = ({ current_user }) => (
                 current_user.education.map((e, i) => {
                     return (
                         <div key={i}>   
-                            <strong>{e.school}</strong> <span float='right'>{e.start_year} - {e.end_year}</span>
+                            <strong>{e.school}</strong> <span float='right'>{e.start_date} - {e.end_date}</span>
                             <br />
                             {e.degree} {e.course}
                             <br />

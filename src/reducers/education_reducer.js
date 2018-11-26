@@ -8,6 +8,10 @@ export default (state={}, action) => {
             return action.payload
         case 'UPDATE_EDUCATION_FAIL':
             return action.payload
+        case 'DELETE_EDUCATION_SUCCESS':
+            return action.payload
+        case 'DELETE_EDUCATION_FAIL':
+            return action.payload
         default: 
             return state
     }

@@ -115,6 +115,26 @@ export const updateEducation = (user_id, education) => async dispatch => {
     }
 }
 
+export const deleteEducation = (user_id, education_id) => async dispatch => {
+    const headers = getHeadersWithJWT()
+    const res = await axios.delete(`${BASE_URL}/user/${user_id}/education/${education_id}`, headers)
+    console.log('DELETE EDUCATION res.data: ', res.data) 
+
+    if (res.data.success) {
+        await dispatch({
+            type: 'DELETE_EDUCATION_SUCCESS',
+            payload: res.data.data
+        })
+        return true 
+    } else {
+        await dispatch({
+            type: 'DELETE_EDUCATION_FAIL',
+            payload: res.data
+        })
+        return false
+    }
+}
+
 export const addExperience = (user_id, experience) => async dispatch =>{
     const headers = getHeadersWithJWT()
     const res = await axios.post(`${BASE_URL}/user/${user_id}/experience`, experience, headers)
@@ -155,3 +175,22 @@ export const updateExperience = (user_id, experience) => async dispatch =>{
     }
 }
 
+export const deleteExperience = (user_id, experience_id) => async dispatch => {
+    const headers = getHeadersWithJWT()
+    const res = await axios.delete(`${BASE_URL}/user/${user_id}/experience/${experience_id}`, headers)
+    console.log('DELETE EXPERIENCE res.data: ', res.data) 
+
+    if (res.data.success) {
+        await dispatch({
+            type: 'DELETE_EXPERIENCE_SUCCESS',
+            payload: res.data.data
+        })
+        return true 
+    } else {
+        await dispatch({
+            type: 'DELETE_EXPERIENCE_FAIL',
+            payload: res.data
+        })
+        return false
+    }
+}

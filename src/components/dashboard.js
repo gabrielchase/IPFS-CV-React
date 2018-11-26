@@ -6,7 +6,7 @@ import { push } from 'connected-react-router'
 import html2pdf from 'html2pdf.js'
 import axios from 'axios'
 
-import { loginUser, getCurrentUser, addEducation, addExperience, updateEducation, updateExperience } from '../actions/index'
+import { loginUser, getCurrentUser, addEducation, addExperience, updateEducation, updateExperience, deleteEducation, deleteExperience } from '../actions/index'
 import { DEGREE_OPTIONS } from '../constants'
 import { CV_View } from './cv_view'
 import Navbar from './navbar'
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    loginUser, getCurrentUser, addEducation, addExperience, updateEducation, updateExperience,
+    loginUser, getCurrentUser, addEducation, addExperience, updateEducation, updateExperience, deleteEducation, deleteExperience,
     gotoHome: () => push('/dashboard'),
     gotoHistory: () => push('/history'),
     gotoLogin: () => push('/login'),
@@ -63,6 +63,8 @@ class Dashboard extends Component {
         
         this.handleAddExperience = this.handleAddExperience.bind(this)
         this.handleUpdateExperience = this.handleUpdateExperience.bind(this)
+
+        this.handleDeleteEducation = this.handleDeleteEducation.bind(this)
         
         this.handleUploadCV = this.handleUploadCV.bind(this)
     }
@@ -127,10 +129,10 @@ class Dashboard extends Component {
     }
 
     handleEducationDegreeSelectField = async (e, { field, value }) => {
-        const new_edcation = Object.assign({}, this.state.new_edcation, {
+        const new_education = Object.assign({}, this.state.new_education, {
             [field]: value
         })
-        await this.setState({ new_edcation })
+        await this.setState({ new_education })
     }
 
     async handleAddEducation(e) {
@@ -181,6 +183,27 @@ class Dashboard extends Component {
         }
     }
 
+    async handleDeleteEducation(education_id) {
+        const success = await this.props.deleteEducation(this.props.current_user._id, education_id)
+
+        if (success) {
+            await this.props.getCurrentUser(this.props.current_user._id)
+        } else {
+            // Error message
+        }
+    }
+
+    async handleDeleteExperience(experience_id) {
+        const success = await this.props.deleteExperience(this.props.current_user._id, experience_id)
+
+        if (success) {
+            await this.props.getCurrentUser(this.props.current_user._id)
+        } else {
+            // Error message
+        }
+    }
+
+
     renderEducation() {
         const { current_user } = this.props
         if (current_user.education) {
@@ -198,7 +221,7 @@ class Dashboard extends Component {
                                     <Grid>
                                         <Grid.Column width={13}><h3>{e.school}</h3></Grid.Column>
                                         <Grid.Column width={1}><Icon name='edit'  onClick={() => this.setState({ edit_education_modal_open: true, edit_education: e })} /></Grid.Column>
-                                        <Grid.Column width={1}><Icon name='delete' /></Grid.Column>
+                                        <Grid.Column width={1}><Icon name='delete' onClick={() => this.handleDeleteEducation(e._id)}/></Grid.Column>
                                         <Grid.Column width={1}></Grid.Column>
                                     </Grid>
                                     {e.degree} {e.course}
@@ -233,7 +256,7 @@ class Dashboard extends Component {
                                     <Grid>
                                         <Grid.Column width={13}><h3>{e.company}</h3></Grid.Column>
                                         <Grid.Column width={1}><Icon floated='right' name='edit'  onClick={() => this.setState({ edit_experience_modal_open: true, edit_experience: e })} /></Grid.Column>
-                                        <Grid.Column width={1}><Icon floated='right' name='delete' /></Grid.Column>    
+                                        <Grid.Column width={1}><Icon floated='right' name='delete' onClick={() => this.handleDeleteExperience(e._id)} /></Grid.Column>    
                                         <Grid.Column width={1}></Grid.Column>
                                     </Grid>
                                     <strong>{e.position}</strong>

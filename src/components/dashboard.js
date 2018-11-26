@@ -25,6 +25,15 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     gotoLogin: () => push('/login'),
 }, dispatch)
 
+const displayYearDateInput = (date) => {
+    if (date) {
+        const split_date = date.split('-')
+        return `${split_date[0]}-${split_date[1]}`
+    } else {
+        return ''
+    }   
+}
+
 class Dashboard extends Component {
     constructor(props) {
         super(props)
@@ -194,7 +203,7 @@ class Dashboard extends Component {
                                     </Grid>
                                     {e.degree} {e.course}
                                     <br />
-                                    {e.start_date} - {e.end_date}
+                                    {e.start_date_slug} - {e.end_date_slug}
                                 </div>
                             )
                         })
@@ -218,8 +227,6 @@ class Dashboard extends Component {
                     </Grid>        
                     {
                         current_user.experience.map((e, i) => {
-                            const start_date = e.start_date.split(' ')
-                            const end_date = e.end_date.split(' ')
                             return (
                                 <div key={i}>   
                                     <Divider />
@@ -231,7 +238,7 @@ class Dashboard extends Component {
                                     </Grid>
                                     <strong>{e.position}</strong>
                                     <br />
-                                    {start_date[1]} {start_date[3]} - {end_date[1]} {end_date[3]}
+                                    {e.start_date_slug} - {e.end_date_slug}
                                     <br />
                                     {e.description}
                                 </div>
@@ -247,6 +254,7 @@ class Dashboard extends Component {
 
     render() {
         const { current_user } = this.props
+        const { edit_education, edit_experience } = this.state
         
         if (current_user._id) {
             return ( 
@@ -257,6 +265,7 @@ class Dashboard extends Component {
                             <Grid.Row>
                                 <Grid.Column width={8}>
                                         <div id='body'>
+                                            <br />
                                             <h3>Welcome {current_user.first_name} {current_user.last_name}</h3>
                                             {this.renderEducation()}
                                             {this.renderExperience()}
@@ -285,10 +294,10 @@ class Dashboard extends Component {
                                                 <Header content='Education' />
                                                 <Modal.Content>
                                                     <Form>
-                                                        <Form.Input fluid label='School' id='school' placeholder='School' onChange={this.handleEditEducationChange} value={this.state.edit_education.school} />
-                                                        <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleEditEducationChange} value={this.state.edit_education.course} />
-                                                        <Form.Input fluid label='Start Year' id='start_date' placeholder='Start Year' onChange={this.handleEditEducationChange} value={this.state.edit_education.start_date} />
-                                                        <Form.Input fluid label='End Year' id='end_date' placeholder='End Year' onChange={this.handleEditEducationChange} value={this.state.edit_education.end_date} />
+                                                        <Form.Input fluid label='School' id='school' placeholder='School' onChange={this.handleEditEducationChange} value={edit_education.school} />
+                                                        <Form.Input fluid label='Course' id='course' placeholder='Course' onChange={this.handleEditEducationChange} value={edit_education.course} />
+                                                        <Form.Input fluid label='Start Year' id='start_date' placeholder='Start Year' onChange={this.handleEditEducationChange} value={displayYearDateInput(edit_education.start_date)} />
+                                                        <Form.Input fluid label='End Year' id='end_date' placeholder='End Year' onChange={this.handleEditEducationChange} value={displayYearDateInput(edit_education.end_date)} />
                                                     </Form>
                                                 </Modal.Content>
                                                 <Modal.Actions>
@@ -323,14 +332,14 @@ class Dashboard extends Component {
                                                 <Header content='Experience' />
                                                 <Modal.Content>
                                                     <Form>
-                                                        <Form.Input fluid label='Company' id='company' placeholder='Company' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.company} />
-                                                        <Form.Input fluid label='Position' id='position' placeholder='Position' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.position} />
+                                                        <Form.Input fluid label='Company' id='company' placeholder='Company' onChange={this.handleEditExperienceChange} value={edit_experience.company} />
+                                                        <Form.Input fluid label='Position' id='position' placeholder='Position' onChange={this.handleEditExperienceChange} value={edit_experience.position} />
                                                         <label><strong>Description</strong></label>
-                                                        <TextArea fluid id='description' placeholder='Description' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.description} />
+                                                        <TextArea fluid id='description' placeholder='Description' onChange={this.handleEditExperienceChange} value={edit_experience.description} />
                                                         <br />
                                                         <br />
-                                                        <Form.Input fluid label='Start Date' id='start_date' placeholder='Start Date' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.start_date} />
-                                                        <Form.Input fluid label='End Date' id='end_date' placeholder='End Date' onChange={this.handleEditExperienceChange} value={this.state.edit_experience.end_date} />
+                                                        <Form.Input fluid label='Start Date' id='start_date' placeholder='Start Date' onChange={this.handleEditExperienceChange} value={displayYearDateInput(edit_experience.start_date)} />
+                                                        <Form.Input fluid label='End Date' id='end_date' placeholder='End Date' onChange={this.handleEditExperienceChange} value={displayYearDateInput(edit_experience.end_date)} />
                                                     </Form>
                                                 </Modal.Content>
                                                 <Modal.Actions>

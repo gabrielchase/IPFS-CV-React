@@ -21,7 +21,7 @@ export const CV_View = ({ current_user }) => (
                 current_user.education.map((e, i) => {
                     return (
                         <div key={i}>   
-                            <strong>{e.school}</strong> <span float='right'>{e.start_date} - {e.end_date}</span>
+                            <strong>{e.school}</strong> <span float='right'>{e.start_date_slug} - {e.end_date_slug}</span>
                             <br />
                             {e.degree} {e.course}
                             <br />
@@ -40,7 +40,7 @@ export const CV_View = ({ current_user }) => (
                 current_user.experience.map((e, i) => {
                     return (
                         <div key={i}>   
-                            <strong>{e.company}</strong> <span float='right'>{e.start_date.split(' ')[1]} {e.start_date.split(' ')[3]} - {e.end_date.split(' ')[1]} {e.end_date.split(' ')[3]}</span>
+                            <strong>{e.company}</strong> <span float='right'>{e.start_date_slug} - {e.end_date_slug}</span>
                             <br />
                             {e.position}    
                             <br />

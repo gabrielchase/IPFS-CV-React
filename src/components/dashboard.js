@@ -210,7 +210,7 @@ class Dashboard extends Component {
             return (
                 <Segment raised>
                     <Grid>
-                        <Grid.Column width={14}><h2>Education</h2></Grid.Column>    
+                        <Grid.Column width={14}><h3>Education</h3></Grid.Column>    
                         <Grid.Column width={2}><Icon floated='right' name='plus square outline' size='large' onClick={() => this.setState({ education_modal_open: true })} /></Grid.Column>    
                     </Grid>                    
                     {
@@ -219,7 +219,7 @@ class Dashboard extends Component {
                                 <div key={i}>   
                                     <Divider />
                                     <Grid>
-                                        <Grid.Column width={13}><h3>{e.school}</h3></Grid.Column>
+                                        <Grid.Column width={13}><h4>{e.school}</h4></Grid.Column>
                                         <Grid.Column width={1}><Icon name='edit'  onClick={() => this.setState({ edit_education_modal_open: true, edit_education: e })} /></Grid.Column>
                                         <Grid.Column width={1}><Icon name='delete' onClick={() => this.handleDeleteEducation(e._id)}/></Grid.Column>
                                         <Grid.Column width={1}></Grid.Column>
@@ -245,7 +245,7 @@ class Dashboard extends Component {
             return (
                 <Segment raised>
                     <Grid>
-                        <Grid.Column width={14}><h2>Experience</h2></Grid.Column>    
+                        <Grid.Column width={14}><h3>Experience</h3></Grid.Column>    
                         <Grid.Column width={2}><Icon floated='right' name='plus square outline' size='large' onClick={() => this.setState({ experience_modal_open: true })} /></Grid.Column>    
                     </Grid>        
                     {
@@ -254,7 +254,7 @@ class Dashboard extends Component {
                                 <div key={i}>   
                                     <Divider />
                                     <Grid>
-                                        <Grid.Column width={13}><h3>{e.company}</h3></Grid.Column>
+                                        <Grid.Column width={13}><h4>{e.company}</h4></Grid.Column>
                                         <Grid.Column width={1}><Icon floated='right' name='edit'  onClick={() => this.setState({ edit_experience_modal_open: true, edit_experience: e })} /></Grid.Column>
                                         <Grid.Column width={1}><Icon floated='right' name='delete' onClick={() => this.handleDeleteExperience(e._id)} /></Grid.Column>    
                                         <Grid.Column width={1}></Grid.Column>
@@ -285,11 +285,16 @@ class Dashboard extends Component {
                     <Navbar />
                     <Container>
                         <Grid>
+                            <Container>
+                                <br />
+                                <Grid>
+                                    <Grid.Column width={14}><h2>Welcome {current_user.first_name} {current_user.last_name}</h2></Grid.Column>    
+                                    <Grid.Column width={2}><Button color='blue' float='right' onClick={() => this.handleUploadCV()}>Save CV</Button></Grid.Column>
+                                </Grid>        
+                            </Container>
                             <Grid.Row>
                                 <Grid.Column width={8}>
                                         <div id='body'>
-                                            <br />
-                                            <h3>Welcome {current_user.first_name} {current_user.last_name}</h3>
                                             {this.renderEducation()}
                                             {this.renderExperience()}
                             
@@ -376,13 +381,6 @@ class Dashboard extends Component {
                                     
                                 </Grid.Column>
                                 <Grid.Column width={8}>
-                                    <br />
-                                    <Container>
-                                        <Grid>
-                                            <Grid.Column width={12}></Grid.Column>    
-                                            <Grid.Column width={4}><Button color='blue' float='right' onClick={() => this.handleUploadCV()}>Save CV</Button></Grid.Column>
-                                        </Grid>        
-                                    </Container>
                                     <CV_View current_user={current_user} />
                                 </Grid.Column>
                             </Grid.Row>

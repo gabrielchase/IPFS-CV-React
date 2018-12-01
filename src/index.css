@@ -6,9 +6,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #FFFAFA		;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+#login-container {
+  margin-top: 200px;
+}
+
+#centerize-text {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

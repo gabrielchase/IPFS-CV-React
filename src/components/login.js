@@ -58,25 +58,31 @@ class Login extends Component {
         const { error } = this.state
         return (
             <Container id='login-container'>
-                <Segment raised id='login-box'>
-                        <Form onSubmit={this.handleSubmit}>
-                            {
-                                error ? 
-                                    <Message negative>
-                                        <Grid centered>
-                                            <Message.Header>{error}</Message.Header>
-                                        </Grid>
-                                    </Message> 
-                                    : 
-                                    <div></div>    
-                            }
-                            <br/>
-                            <Form.Input fluid label='Email' placeholder='Email' id='email' value={this.state.email} onChange={this.handleChange} />
-                            <Form.Input fluid label='Password' placeholder='Password' id='password' type='password' value={this.state.password} onChange={this.handleChange} />
-                            <br/>
-                            <Button primary fluid type="submit">SIGN IN</Button>
-                        </Form>
-                </Segment>
+                <Grid>
+                    <Grid.Row centered>
+                        <Grid.Column width={8}> 
+                            <Segment raised id='login-box' >
+                                <h2 id='centerize-text'>Decentralized CVs</h2>
+                                <Form onSubmit={this.handleSubmit}>
+                                    {
+                                        error ? 
+                                            <Message negative>
+                                                <Grid centered>
+                                                    <Message.Header>{error}</Message.Header>
+                                                </Grid>
+                                            </Message> 
+                                            : 
+                                            <div></div>    
+                                    }
+                                    <Form.Input fluid label='Email' placeholder='Email' id='email' value={this.state.email} onChange={this.handleChange} />
+                                    <Form.Input fluid label='Password' placeholder='Password' id='password' type='password' value={this.state.password} onChange={this.handleChange} />
+                                    <br/>
+                                    <Button primary fluid type="submit">SIGN IN</Button>
+                                </Form>
+                        </Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </Container>
         )
     }

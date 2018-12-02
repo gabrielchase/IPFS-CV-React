@@ -213,3 +213,15 @@ export const updateProfile = (user) => async dispatch => {
         return false
     }
 }
+
+export const registerNewUser = (user) => async dispatch => {
+    console.log('user: ', user)
+    const res = await axios.post(`${BASE_URL}/user`, user)
+    console.log('REGISTER NEW USER res.data: ', res.data)
+    
+    if (res.data.success) {
+        return true
+    } else {
+        return false
+    }
+}

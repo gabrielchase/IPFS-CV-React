@@ -79,8 +79,8 @@ class Dashboard extends Component {
     }
 
     async componentWillMount() {
-        // this.props.getCurrentUser(this.props.auth._id)
-        this.props.getCurrentUser('5bdab5f860a8be646c8da64a')
+        this.props.getCurrentUser(this.props.auth._id)
+        // this.props.getCurrentUser('5bdab5f860a8be646c8da64a')
     }
 
     async handleUploadCV() {

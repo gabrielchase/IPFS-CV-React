@@ -15,7 +15,7 @@ code {
 }
 
 #login-container {
-  margin-top: 200px;
+  margin-top: 150px;
 }
 
 #centerize-text {
@@ -69,7 +69,7 @@ code {
   font-size: 16px;
 }
 
-#description {
+#cv-description {
   font-size: 14px;
   font-style: italic;
 }

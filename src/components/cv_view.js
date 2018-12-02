@@ -46,7 +46,7 @@ export const CvView = ({ current_user }) => (
                                 <br />
                                 <span id='company'>{e.company}</span>
                                 <br />
-                                <span id='description'>{e.description}</span>
+                                <span id='cv-description'>{e.description}</span>
                                 <br />
                                 <br />
                             </div>

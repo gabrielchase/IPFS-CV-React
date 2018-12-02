@@ -23,3 +23,25 @@ code {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+#date {
+  font-size: 12px;
+}
+
+#position {
+  font-size: 14px;
+}
+
+#school {
+  font-size: 14px;
+}
+
+#cv-preview {
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+#section-title {
+  font-size: 16px;
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Segment, Grid } from 'semantic-ui-react'
 
-export const CV_View = ({ current_user }) => (
+export const CvView = ({ current_user }) => (
     <Segment raised>
         <Container id='cv-preview'>
             <br />
@@ -13,17 +13,18 @@ export const CV_View = ({ current_user }) => (
             </Grid>
             <br />
             <br />
+            <br />
             <Grid centered>
-                <h3>Education</h3>
+                <h3 id='section-title'>Education</h3>
             </Grid>
             <br />
             {
                 current_user.education.map((e, i) => {
                     return (
                         <div key={i}>   
-                            <strong>{e.school}</strong> <span float='right'>{e.start_date_slug} - {e.end_date_slug}</span>
+                            <strong id='school'>{e.school}</strong> <span id='date' float='right'>({e.start_date_slug} - {e.end_date_slug})</span>
                             <br />
-                            {e.degree} {e.course}
+                            <span id='course'>{e.course}</span>
                             <br />
                             <br />
                         </div>
@@ -33,18 +34,18 @@ export const CV_View = ({ current_user }) => (
             <br />
             <br />
             <Grid centered>
-                <h3>Experience</h3>
+                <h3 id='section-title'>Experience</h3>
             </Grid>
             <br />
             {
                 current_user.experience.map((e, i) => {
                     return (
                         <div key={i}>   
-                            <strong>{e.company}</strong> <span float='right'>{e.start_date_slug} - {e.end_date_slug}</span>
+                            <strong id='position'>{e.position}</strong> <span id='date' float='right'>({e.start_date_slug} - {e.end_date_slug})</span>
                             <br />
-                            {e.position}    
+                            <span id='company'>{e.company}</span>
                             <br />
-                            {e.description}
+                            <span id='description'>{e.description}</span>
                             <br />
                             <br />
                         </div>

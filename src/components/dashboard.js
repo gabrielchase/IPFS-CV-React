@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Button, Dropdown, Form, Header, Modal, TextArea, Container, Divider, Grid, Icon, Segment } from 'semantic-ui-react'
 import { push } from 'connected-react-router'
 import html2pdf from 'html2pdf.js'
 import axios from 'axios'
+import { 
+    Button, Form, Header, 
+    Modal, TextArea, Container, 
+    Divider, Grid, Icon, 
+    Segment } 
+from 'semantic-ui-react'
 
-import { loginUser, getCurrentUser, addEducation, addExperience, updateEducation, updateExperience, deleteEducation, deleteExperience } from '../actions/index'
-import { DEGREE_OPTIONS } from '../constants'
-import { CV_View } from './cv_view'
+import { CvView } from './cv_view'
 import Navbar from './navbar'
-
+import { 
+    loginUser, getCurrentUser, 
+    addEducation, addExperience, 
+    updateEducation, updateExperience, 
+    deleteEducation, deleteExperience } 
+from '../actions/index'
+    
 const mapStateToProps = (state) => {
     return {
         auth: state.auth,
@@ -90,7 +99,22 @@ class Dashboard extends Component {
 
         if (res.data.success) {
             await this.props.getCurrentUser(this.props.current_user._id)
-            html2pdf(cv)
+            
+            let today = new Date()
+            let dd = today.getDate()
+            let mm = today.getMonth() + 1
+            let yyyy = today.getFullYear()
+
+            if (dd < 10) 
+                dd = '0' + dd
+
+            if (mm < 10) 
+                mm = '0' + mm
+
+            today = `${mm}-${dd}-${yyyy}`
+            const filename = `${this.props.current_user.last_name}, ${this.props.current_user.first_name} ${today}`
+
+            html2pdf(cv, { filename })
         } else {
             // Error message
         }
@@ -287,6 +311,7 @@ class Dashboard extends Component {
                         <Grid>
                             <Container>
                                 <br />
+                                <br />
                                 <Grid>
                                     <Grid.Column width={14}><h2>Welcome {current_user.first_name} {current_user.last_name}</h2></Grid.Column>    
                                     <Grid.Column width={2}><Button color='blue' float='right' onClick={() => this.handleUploadCV()}>Save CV</Button></Grid.Column>
@@ -381,7 +406,7 @@ class Dashboard extends Component {
                                     
                                 </Grid.Column>
                                 <Grid.Column width={8}>
-                                    <CV_View current_user={current_user} />
+                                    <CvView current_user={current_user} />
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

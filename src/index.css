@@ -37,11 +37,39 @@ code {
 }
 
 #cv-preview {
-  margin-right: 100px;
-  margin-left: 100px;
   margin-top: 20px;
 }
 
+#cv-body {
+  margin-left: 40px;
+}
+
 #section-title {
+  font-size: 18px;
+  padding-bottom: 5px;
+}
+
+#top-name {
+  font-size: 30px;
+}
+
+#school {
   font-size: 16px;
+}
+
+#course {
+  font-size: 14px;
+}
+
+#position {
+  font-size: 16px;
+}
+
+#company {
+  font-size: 16px;
+}
+
+#description {
+  font-size: 14px;
+  font-style: italic;
 }

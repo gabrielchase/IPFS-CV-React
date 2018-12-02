@@ -10,16 +10,16 @@ import {
     Divider, Grid, Icon, 
     Segment } 
 from 'semantic-ui-react'
-
 import { CvView } from './cv_view'
 import Navbar from './navbar'
+
 import { 
     loginUser, getCurrentUser, 
     addEducation, addExperience, 
     updateEducation, updateExperience, 
-    deleteEducation, deleteExperience } 
-from '../actions/index'
-    
+    deleteEducation, deleteExperience 
+} from '../actions/index'
+
 const mapStateToProps = (state) => {
     return {
         auth: state.auth,

@@ -194,3 +194,22 @@ export const deleteExperience = (user_id, experience_id) => async dispatch => {
         return false
     }
 }
+
+export const updateProfile = (user) => async dispatch => {
+    const user_id = user._id 
+    delete user._id
+    const headers = getHeadersWithJWT()
+    const update_res = await axios.put(`${BASE_URL}/user/${user_id}`, user, headers)
+    console.log('UPDATE USER res.data: ', update_res.data)
+    
+    if (update_res.data.success) {
+        const get_user_res = await axios.get(`${BASE_URL}/user/${user_id}`, headers)
+        await dispatch({
+            type: 'UPDATE_USER_SUCCESS',
+            payload: get_user_res.data.data
+        })
+        return true 
+    } else {
+        return false
+    }
+}

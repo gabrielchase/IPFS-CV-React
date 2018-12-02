@@ -4,6 +4,10 @@ export default (state={}, action) => {
             return action.payload
         case 'GET_CURRENT_USER_FAIL':
             return action.payload
+        case 'UPDATE_USER_SUCCESS':
+            return action.payload
+        case 'UPDATE_USER_FAIL':
+            return action.payload        
         default: 
             return state
     }

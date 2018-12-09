@@ -29,6 +29,8 @@ class Login extends Component {
             error: '',
             success: '',
             new_user: {
+                first_name: '',
+                last_name: '',
                 email: '',
                 password: ''
             }
@@ -117,7 +119,7 @@ class Login extends Component {
                                     <Form.Input fluid label='Email' placeholder='Email' id='email' value={this.state.email} onChange={this.handleChange} />
                                     <Form.Input fluid label='Password' placeholder='Password' id='password' type='password' value={this.state.password} onChange={this.handleChange} />
                                     <br/>
-                                    <Button primary fluid onClick={this.handleSubmit}>SIGN IN</Button>
+                                    <Button primary fluid onClick={this.handleSubmit}>LOGIN</Button>
                                     <Divider horizontal>Or</Divider>
                                     <Button secondary fluid onClick={() => this.setState({ register_modal_open: true })}>REGISTER</Button>
                                 </Form>
@@ -129,6 +131,8 @@ class Login extends Component {
                     <Header content='Register' />
                     <Modal.Content>
                         <Form>
+                            <Form.Input fluid label='First Name' id='first_name' placeholder='John' onChange={this.handleNewUserChange} value={this.state.new_user.first_name} />
+                            <Form.Input fluid label='Last Name' id='last_name' placeholder='Smith' onChange={this.handleNewUserChange} value={this.state.new_user.last_name} />
                             <Form.Input fluid label='Email' id='email' placeholder='john_smith@gmail.com' onChange={this.handleNewUserChange} value={this.state.new_user.email} />
                             <Form.Input fluid label='Password' id='password' type='password' onChange={this.handleNewUserChange} value={this.state.new_user.password} />
                         </Form>

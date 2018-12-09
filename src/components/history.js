@@ -38,7 +38,7 @@ class History extends Component {
                                 const IPFS_HASH_URL = `${IPFS_URL}/${cv.hash}`
                                 return (
                                     <ul>
-                                        <li>{cv.modified_on}: <a href={IPFS_HASH_URL}>{cv.hash}</a></li>
+                                        <li>{cv.created_on}: <a href={IPFS_HASH_URL}>{cv.hash}</a></li>
                                     </ul>
                                 )
                             })

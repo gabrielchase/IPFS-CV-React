@@ -24,8 +24,8 @@ class Login extends Component {
 
         this.state = {
             register_modal_open: false,
-            email: 'gao.pan@gmail.com',
-            password: 'password',
+            email: '',
+            password: '',
             error: '',
             success: '',
             new_user: {

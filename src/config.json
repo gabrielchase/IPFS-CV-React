@@ -1,5 +1,8 @@
 {
     "development": {
         "BASE_URL": "http://localhost:3005/api"
+    },
+    "production": {
+        "BASE_URL": "https://ipfs-cv-api.herokuapp.com/api"
     }
 }

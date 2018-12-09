@@ -1,6 +1,8 @@
 import axios from 'axios'
 
 const config_file = require('../config.json')
+console.log(config_file)
+console.log(process.env.NODE_ENV)
 const { BASE_URL } = config_file[process.env.NODE_ENV]
 
 function getJWT() {

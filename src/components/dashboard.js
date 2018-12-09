@@ -20,6 +20,9 @@ import {
     deleteEducation, deleteExperience 
 } from '../actions/index'
 
+const config_file = require('../config.json')
+const { BASE_URL } = config_file['production']
+
 const mapStateToProps = (state) => {
     return {
         auth: state.auth,
@@ -88,7 +91,7 @@ class Dashboard extends Component {
         const cv = document.getElementById('cv-preview')
         const cv_buffer = await html2pdf().from(cv).outputPdf()
 
-        const res = await axios.post(`http://localhost:3005/api/user/${this.props.current_user._id}/cv`, JSON.stringify({ data: cv_buffer }), {
+        const res = await axios.post(`${BASE_URL}/user/${this.props.current_user._id}/cv`, JSON.stringify({ data: cv_buffer }), {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`

@@ -32,13 +32,13 @@ class History extends Component {
                 <div>
                     <Navbar />  
                     <Container>
-                        <h3>History</h3>
+                        <h2>History</h2>
                         {
                             current_user.cv_history.map((cv, i) => {
                                 const IPFS_HASH_URL = `${IPFS_URL}/${cv.hash}`
                                 return (
                                     <ul>
-                                        <li>{cv.created_on}: <a href={IPFS_HASH_URL}>{cv.hash}</a></li>
+                                        <li>{cv.modified_on}: <a href={IPFS_HASH_URL}>{cv.hash}</a></li>
                                     </ul>
                                 )
                             })
